@@ -1,44 +1,12 @@
-const educationData = {
-  ALB: { years: 9, grading: '5' }, // Албанія
-  AUT: { years: 9, grading: '5' }, // Австрія
-  BEL: { years: 13, grading: 'A' }, // Бельгія
-  BIH: { years: 9, grading: '5' }, // Боснія і Герцеговина
-  BGR: { years: 11, grading: '6' }, // Болгарія
-  HRV: { years: 8, grading: '5' }, // Хорватія
-  CYP: { years: 10, grading: '100' }, // Кіпр
-  CZE: { years: 10, grading: '5' }, // Чехія
-  DNK: { years: 10, grading: '12' }, // Данія
-  EST: { years: 9, grading: '5' }, // Естонія
-  FIN: { years: 12, grading: '5' }, // Фінляндія
-  FRA: { years: 15, grading: '20' }, // Франція
-  DEU: { years: 12, grading: '6' }, // Німеччина
-  GRC: { years: 11, grading: '20' }, // Греція
-  HUN: { years: 13, grading: '5' }, // Угорщина
-  ISL: { years: 10, grading: '10' }, // Ісландія
-  IRL: { years: 10, grading: '100' }, // Ірландія
-  ITA: { years: 10, grading: '10' }, // Італія
-  LVA: { years: 11, grading: '10' }, // Латвія
-  LTU: { years: 10, grading: '10' }, // Литва
-  LUX: { years: 12, grading: '60' }, // Люксембург
-  MDA: { years: 11, grading: '10' }, // Молдова
-  MNE: { years: 9, grading: '5' }, // Чорногорія
-  NLD: { years: 11, grading: '10' }, // Нідерланди
-  MKD: { years: 11, grading: '5' }, // Північна Македонія
-  NOR: { years: 10, grading: '6' }, // Норвегія
-  POL: { years: 9, grading: '6' }, // Польща
-  PRT: { years: 12, grading: '20' }, // Португалія
-  ROU: { years: 13, grading: '10' }, // Румунія
-  SRB: { years: 9, grading: '5' }, // Сербія
-  SVK: { years: 11, grading: '5' }, // Словаччина
-  SVN: { years: 9, grading: '5' }, // Словенія
-  ESP: { years: 10, grading: '10' }, // Іспанія
-  SWE: { years: 10, grading: 'A' }, // Швеція
-  CHE: { years: 11, grading: '6' }, // Швейцарія
-  TUR: { years: 12, grading: '100' }, // Туреччина
-  UKR: { years: 9, grading: '12' }, // Україна
-  GBR: { years: 12, grading: 'A' }, // Велика Британія
-  OSA: { years: 9, grading: '5' }, // Косово
-};
+let educationData = {};
+
+fetch('./educationData.json')
+  .then(response => response.json())
+  .then(data => {
+    // console.log(data);
+    educationData = data;
+  })
+  .catch(error => console.error('Error loading JSON:', error));
 
 const width = 1200;
 const height = 800;
