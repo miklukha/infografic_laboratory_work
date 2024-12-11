@@ -22,3 +22,11 @@ svg {
 .wrapper li {
   margin-bottom: 10px;
 }
+
+td {
+  text-align: center;
+}
+
+th {
+  width: 150px !important;
+}

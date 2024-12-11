@@ -1,44 +1,43 @@
 const educationData = {
-  ALB: 9, // Албанія
-  AUT: 9, // Австрія
-  BEL: 13, // Бельгія
-  BIH: 9, // Боснія і Герцеговина
-  BGR: 11, // Болгарія
-  HRV: 8, // Хорватія
-  CYP: 10, // Кіпр
-  CZE: 10, // Чехія
-  DNK: 10, // Данія
-  EST: 9, // Естонія
-  FIN: 12, // Фінляндія
-  FRA: 15, // Франція
-  DEU: 12, // Німеччина
-  GRC: 11, // Греція
-  HUN: 13, // Угорщина
-  ISL: 10, // Ісландія
-  IRL: 10, // Ірландія
-  ITA: 10, // Італія
-  LVA: 11, // Латвія
-  LTU: 10, // Литва
-  LUX: 12, // Люксембург
-  MDA: 11, // Молдова
-  MNE: 9, // Чорногорія
-  NLD: 11, // Нідерланди
-  MKD: 11, // Північна Македонія
-  NOR: 10, // Норвегія
-  POL: 9, // Польща
-  PRT: 12, // Португалія
-  ROU: 13, // Румунія
-  SRB: 9, // Сербія
-  SVK: 11, // Словаччина
-  SVN: 9, // Словенія
-  ESP: 10, // Іспанія
-  SWE: 10, // Швеція
-  CHE: 11, // Швейцарія
-  TUR: 12, // Туреччина
-  UKR: 9, // Україна
-  GBR: 12, // Велика Британія
-  MKD: 11, // Північна Македонія
-  OSA: 9, // Kosovo
+  ALB: { years: 9, grading: '5' }, // Албанія
+  AUT: { years: 9, grading: '5' }, // Австрія
+  BEL: { years: 13, grading: 'A' }, // Бельгія
+  BIH: { years: 9, grading: '5' }, // Боснія і Герцеговина
+  BGR: { years: 11, grading: '6' }, // Болгарія
+  HRV: { years: 8, grading: '5' }, // Хорватія
+  CYP: { years: 10, grading: '100' }, // Кіпр
+  CZE: { years: 10, grading: '5' }, // Чехія
+  DNK: { years: 10, grading: '12' }, // Данія
+  EST: { years: 9, grading: '5' }, // Естонія
+  FIN: { years: 12, grading: '5' }, // Фінляндія
+  FRA: { years: 15, grading: '20' }, // Франція
+  DEU: { years: 12, grading: '6' }, // Німеччина
+  GRC: { years: 11, grading: '20' }, // Греція
+  HUN: { years: 13, grading: '5' }, // Угорщина
+  ISL: { years: 10, grading: '10' }, // Ісландія
+  IRL: { years: 10, grading: '100' }, // Ірландія
+  ITA: { years: 10, grading: '10' }, // Італія
+  LVA: { years: 11, grading: '10' }, // Латвія
+  LTU: { years: 10, grading: '10' }, // Литва
+  LUX: { years: 12, grading: '60' }, // Люксембург
+  MDA: { years: 11, grading: '10' }, // Молдова
+  MNE: { years: 9, grading: '5' }, // Чорногорія
+  NLD: { years: 11, grading: '10' }, // Нідерланди
+  MKD: { years: 11, grading: '5' }, // Північна Македонія
+  NOR: { years: 10, grading: '6' }, // Норвегія
+  POL: { years: 9, grading: '6' }, // Польща
+  PRT: { years: 12, grading: '20' }, // Португалія
+  ROU: { years: 13, grading: '10' }, // Румунія
+  SRB: { years: 9, grading: '5' }, // Сербія
+  SVK: { years: 11, grading: '5' }, // Словаччина
+  SVN: { years: 9, grading: '5' }, // Словенія
+  ESP: { years: 10, grading: '10' }, // Іспанія
+  SWE: { years: 10, grading: 'A' }, // Швеція
+  CHE: { years: 11, grading: '6' }, // Швейцарія
+  TUR: { years: 12, grading: '100' }, // Туреччина
+  UKR: { years: 9, grading: '12' }, // Україна
+  GBR: { years: 12, grading: 'A' }, // Велика Британія
+  OSA: { years: 9, grading: '5' }, // Косово
 };
 
 const width = 1200;
@@ -118,8 +117,43 @@ d3.json('world.geojson').then(geoData => {
     .attr('d', path)
     .attr('fill', d => {
       const code = d.id;
-      return educationData[code] ? colorScale(educationData[code]) : '#ccc';
+      return educationData[code]
+        ? colorScale(educationData[code].years)
+        : '#ccc';
     });
+
+  svg
+    .selectAll('.grading')
+    .data(europe)
+    .enter()
+    .append('text')
+    .attr('class', 'grading')
+    // .attr('x', d => path.centroid(d)[0])
+    .attr('x', d => {
+      const code = d.id;
+      if (code === 'FRA') return path.centroid(d)[0] + 36; // Франція
+      if (code === 'NOR') return path.centroid(d)[0] + 20; // Норвегія
+      if (code === 'GBR') return path.centroid(d)[0] + 10; // Великобританія
+      if (code === 'GRC') return path.centroid(d)[0] - 8; // Греція
+      return path.centroid(d)[0];
+    })
+    // .attr('y', d => path.centroid(d)[1] + 10)
+    .attr('y', d => {
+      const code = d.id;
+      if (code === 'FRA') return path.centroid(d)[1] - 10; // Франція
+      if (code === 'NOR') return path.centroid(d)[1] + 136; // Норвегія
+      if (code === 'GBR') return path.centroid(d)[1] + 35; // Великобританія
+      if (code === 'GRC') return path.centroid(d)[1] + 15;
+      return path.centroid(d)[1] + 10;
+    })
+    .text(d => {
+      const code = d.id;
+      return educationData[code] ? educationData[code].grading : '';
+    })
+    .attr('font-size', '9px')
+    .attr('fill', 'red')
+    .attr('font-weight', '700')
+    .attr('text-anchor', 'middle');
 
   svg
     .selectAll('.label')
@@ -145,10 +179,10 @@ d3.json('world.geojson').then(geoData => {
     })
     .text(d => {
       const code = d.id;
-      return educationData[code] ? educationData[code] : '';
+      return educationData[code] ? educationData[code].years : '';
     })
-    .attr('font-size', '9px')
-    .attr('font-weight', '700')
+    .attr('font-size', '8px')
+    // .attr('font-weight', '700')
     .attr('fill', 'black')
     .attr('text-anchor', 'middle');
 
@@ -182,4 +216,14 @@ d3.json('world.geojson').then(geoData => {
     .attr('y', 105)
     .attr('text-anchor', 'middle')
     .text('Роки');
+
+  svg
+    .append('text')
+    .attr('x', 518)
+    .attr('y', 590)
+    .attr('class', 'grading-legend')
+    .text('Червоним позначено систему оцінювання (A, 100, 5 тощо)')
+    .attr('font-size', '12px')
+    .attr('fill', 'red')
+    .attr('font-weight', 'bold');
 });
